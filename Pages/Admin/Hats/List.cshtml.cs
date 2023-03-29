@@ -1,5 +1,6 @@
 using HatShopWebAppWAzureDB.Data;
 using HatShopWebAppWAzureDB.Models.Domain;
+using HatShopWebAppWAzureDB.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -11,25 +12,22 @@ namespace HatShopWebAppWAzureDB.Pages.Admin.Hats
 
         public List<Hat> Hats { get; set; }
 
-        //Constructor Injection of DB
-        private readonly HatShopDbContext hatShopDbContext;
+        private readonly IHatRepository HatRepository;
 
-        public ListModel(HatShopDbContext hatShopDbContext)
+
+        public ListModel(IHatRepository HatRepository)
         {
-            this.hatShopDbContext = hatShopDbContext;
+            this.HatRepository = HatRepository;
         }
         public async Task OnGet()
         {
-            Hats = await hatShopDbContext.Hats.ToListAsync();
+            Hats = (List<Hat>) await HatRepository.GetAllAsync();
         }
         public async Task<IActionResult> OnGetDelete(Guid id)
         {
-            var currHat = await hatShopDbContext.Hats.FindAsync(id);
-            if (currHat != null)
+           
+           if (await HatRepository.DeleteAsync(id))
             {
-                hatShopDbContext.Hats.Remove(currHat);
-                await hatShopDbContext.SaveChangesAsync();
-
                 return RedirectToPage("/Admin/Hats/List");
             }
 

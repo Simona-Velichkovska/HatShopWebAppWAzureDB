@@ -1,6 +1,7 @@
 using HatShopWebAppWAzureDB.Data;
 using HatShopWebAppWAzureDB.Models.Domain;
 using HatShopWebAppWAzureDB.Models.ViewModels;
+using HatShopWebAppWAzureDB.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -13,12 +14,11 @@ namespace HatShopWebAppWAzureDB.Pages.Admin.Hats
         [BindProperty]
         public AddHat AddHatRequest { get; set; }
 
-        //Constructor Injection of DbContext
-        
-        private readonly HatShopDbContext hatShopDbContext;
-        public AddModel(HatShopDbContext hatShopDbContext)
+        private readonly IHatRepository HatRepository;
+
+        public AddModel(IHatRepository HatRepository)
         {
-            this.hatShopDbContext = hatShopDbContext;
+            this.HatRepository = HatRepository;
         }
 
         public void OnGet()
@@ -42,8 +42,7 @@ namespace HatShopWebAppWAzureDB.Pages.Admin.Hats
                 PublishedDate = DateTime.Now,
                 Visible = AddHatRequest.Visible
             };
-            await hatShopDbContext.Hats.AddAsync(hat);
-            await hatShopDbContext.SaveChangesAsync();
+            await HatRepository.AddAsync(hat);
 
             return RedirectToPage("/Admin/Hats/List");
         }

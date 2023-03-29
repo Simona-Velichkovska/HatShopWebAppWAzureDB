@@ -1,4 +1,5 @@
 using HatShopWebAppWAzureDB.Data;
+using HatShopWebAppWAzureDB.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,7 +9,8 @@ builder.Services.AddRazorPages();
 builder.Services.AddDbContext<HatShopDbContext>(options => 
     options.UseSqlServer(  
         builder.Configuration.GetConnectionString("HatShopDbConnectionString")));
-
+builder.Services.AddTransient(typeof(IHatRepository), typeof(HatRepository));
+builder.Services.AddTransient<IHatRepository, HatRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
