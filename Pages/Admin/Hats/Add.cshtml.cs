@@ -25,7 +25,7 @@ namespace HatShopWebAppWAzureDB.Pages.Admin.Hats
         {
         }
 
-        public void OnPost()
+        public IActionResult OnPost()
         {
             var hat = new Hat()
             {
@@ -44,6 +44,8 @@ namespace HatShopWebAppWAzureDB.Pages.Admin.Hats
             };
             hatShopDbContext.Hats.Add(hat);
             hatShopDbContext.SaveChanges();
+
+            return RedirectToPage("/Admin/Blogs/List");
         }
     }
 }

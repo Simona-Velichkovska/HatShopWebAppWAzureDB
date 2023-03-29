@@ -1,0 +1,29 @@
+﻿@page
+@model HatShopWebAppWAzureDB.Pages.Admin.Hats.ListModel
+@{
+}
+<div class="container">
+    <h1 class="mb-5">All Hats</h1>
+</div>
+
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Price</th>
+            <th scope="col">Date</th>
+        </tr>
+    </thead>
+    <tbody class="table-group-divider">
+        @foreach (var hat in Model.Hats)
+        {
+            <tr>
+                <td>@hat.Name</td>
+                <td>@hat.Quantity</td>
+                <td>@hat.Price</td>
+                <td>@hat.PublishedDate</td>
+            </tr>
+        }
+    </tbody>
+</table>
