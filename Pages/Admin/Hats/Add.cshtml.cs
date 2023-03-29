@@ -45,7 +45,7 @@ namespace HatShopWebAppWAzureDB.Pages.Admin.Hats
             hatShopDbContext.Hats.Add(hat);
             hatShopDbContext.SaveChanges();
 
-            return RedirectToPage("/Admin/Blogs/List");
+            return RedirectToPage("/Admin/Hats/List");
         }
     }
 }

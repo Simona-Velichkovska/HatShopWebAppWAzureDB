@@ -21,5 +21,17 @@ namespace HatShopWebAppWAzureDB.Pages.Admin.Hats
         {
             Hats = hatShopDbContext.Hats.ToList();
         }
+        public IActionResult OnGetDelete(Guid id)
+        {
+            var currHat = hatShopDbContext.Hats.Find(id);
+            if (currHat != null)
+            {
+                hatShopDbContext.Hats.Remove(currHat);
+            }
+
+            hatShopDbContext.SaveChanges();
+
+            return RedirectToPage("/Admin/Hats/List");
+        }
     }
 }
