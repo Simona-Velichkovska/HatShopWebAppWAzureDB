@@ -25,7 +25,7 @@ namespace HatShopWebAppWAzureDB.Pages.Admin.Hats
         {
         }
 
-        public IActionResult OnPost()
+        public async Task<IActionResult> OnPost()
         {
             var hat = new Hat()
             {
@@ -42,8 +42,8 @@ namespace HatShopWebAppWAzureDB.Pages.Admin.Hats
                 PublishedDate = DateTime.Now,
                 Visible = AddHatRequest.Visible
             };
-            hatShopDbContext.Hats.Add(hat);
-            hatShopDbContext.SaveChanges();
+            await hatShopDbContext.Hats.AddAsync(hat);
+            await hatShopDbContext.SaveChangesAsync();
 
             return RedirectToPage("/Admin/Hats/List");
         }

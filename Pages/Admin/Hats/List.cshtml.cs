@@ -2,6 +2,7 @@ using HatShopWebAppWAzureDB.Data;
 using HatShopWebAppWAzureDB.Models.Domain;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 
 namespace HatShopWebAppWAzureDB.Pages.Admin.Hats
 {
@@ -17,21 +18,23 @@ namespace HatShopWebAppWAzureDB.Pages.Admin.Hats
         {
             this.hatShopDbContext = hatShopDbContext;
         }
-        public void OnGet()
+        public async Task OnGet()
         {
-            Hats = hatShopDbContext.Hats.ToList();
+            Hats = await hatShopDbContext.Hats.ToListAsync();
         }
-        public IActionResult OnGetDelete(Guid id)
+        public async Task<IActionResult> OnGetDelete(Guid id)
         {
-            var currHat = hatShopDbContext.Hats.Find(id);
+            var currHat = await hatShopDbContext.Hats.FindAsync(id);
             if (currHat != null)
             {
                 hatShopDbContext.Hats.Remove(currHat);
+                await hatShopDbContext.SaveChangesAsync();
+
+                return RedirectToPage("/Admin/Hats/List");
             }
 
-            hatShopDbContext.SaveChanges();
-
-            return RedirectToPage("/Admin/Hats/List");
+            return Page();
+            
         }
     }
 }

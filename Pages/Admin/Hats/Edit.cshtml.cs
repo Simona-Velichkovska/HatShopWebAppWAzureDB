@@ -17,14 +17,14 @@ namespace HatShopWebAppWAzureDB.Pages.Admin.Hats
         {
             this.hatShopDbContext = hatShopDbContext;
         }
-        public void OnGet(Guid id)
+        public async Task OnGet(Guid id)
         {
-            Hat = hatShopDbContext.Hats.Find(id);
+            Hat = await hatShopDbContext.Hats.FindAsync(id);
         }
 
-        public IActionResult OnPostEdit()
+        public async Task<IActionResult> OnPostEdit()
         {
-            var newHat = hatShopDbContext.Hats.Find(Hat.Id);
+            var newHat = await hatShopDbContext.Hats.FindAsync(Hat.Id);
             if (newHat != null)
             {
                 newHat.Name = Hat.Name;
@@ -41,22 +41,23 @@ namespace HatShopWebAppWAzureDB.Pages.Admin.Hats
                 newHat.Visible = Hat.Visible;
             }
 
-            hatShopDbContext.SaveChanges();
+            await hatShopDbContext.SaveChangesAsync();
 
             return RedirectToPage("/Admin/Hats/List");
         }
 
-        public IActionResult OnPostDelete()
+        public async Task<IActionResult> OnPostDelete()
         {
-            var currHat = hatShopDbContext.Hats.Find(Hat.Id);
+            var currHat = await hatShopDbContext.Hats.FindAsync(Hat.Id);
             if (currHat != null)
             {
                 hatShopDbContext.Hats.Remove(currHat);
+                await hatShopDbContext.SaveChangesAsync();
+
+                return RedirectToPage("/Admin/Hats/List");
             }
 
-            hatShopDbContext.SaveChanges();
-
-            return RedirectToPage("/Admin/Hats/List");
+            return Page();
         }
 
     }

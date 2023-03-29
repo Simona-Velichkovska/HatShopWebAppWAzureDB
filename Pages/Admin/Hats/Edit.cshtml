@@ -8,8 +8,9 @@
 </div>
 
 
-
-<div>
+@if (Model.Hat != null)
+{
+    <div>
     <div class="container">
         <form method="post">
             <div class="mb-3">
@@ -86,4 +87,8 @@
 
     </div>
 </div>
-
+}else{
+    <div class="container">
+        <p>Hat not found!</p>
+    </div>
+}
