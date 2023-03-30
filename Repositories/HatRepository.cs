@@ -1,6 +1,7 @@
 ﻿using HatShopWebAppWAzureDB.Data;
 using HatShopWebAppWAzureDB.Models.Domain;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace HatShopWebAppWAzureDB.Repositories
 {
@@ -34,12 +35,22 @@ namespace HatShopWebAppWAzureDB.Repositories
         public async Task<IEnumerable<Hat>> GetAllAsync()
         {
             return await hatShopDbContext.Hats.ToListAsync();
-            
+
         }
 
         public async Task<Hat> GetByIdAsync(Guid id)
         {
             return await hatShopDbContext.Hats.FindAsync(id);
+        }
+
+        public async Task<Int32> GetCountOfAllVisible()
+        {
+            return await hatShopDbContext.Hats.Where(h => h.Visible == true).CountAsync();
+        }
+
+        public async Task<List<Hat>> TakeSomeAsync(int skip, int size)
+        {
+            return await hatShopDbContext.Hats.Where(h => h.Visible == true).Skip(skip).Take(size).ToListAsync();
         }
 
         public async Task<Hat> UpdateAsync(Hat hat)
