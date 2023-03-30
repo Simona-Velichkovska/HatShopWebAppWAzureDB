@@ -14,7 +14,6 @@ namespace HatShopWebAppWAzureDB.Pages.Admin.Hats
 
         private readonly IHatRepository HatRepository;
 
-
         public ListModel(IHatRepository HatRepository)
         {
             this.HatRepository = HatRepository;

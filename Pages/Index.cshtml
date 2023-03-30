@@ -4,19 +4,72 @@
     ViewData["Title"] = "Home page";
 }
 
+
+<div class="container mb-3 navbar collapse d-sm-inline-flex justify-content-between">
+    <div class="d-flex justify-content-start">
+        <div class="m-1">
+        <form class="d-flex" role="search">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+        </div>
+    </div>
+
+    <div class=" d-flex justify-content-end">
+    <div class="m-1">
+    <select class="form-select" aria-label="Size" >
+        <option disabled selected hidden>Size</option>
+        <option value="1">One</option>
+        <option value="2">Two</option>
+        <option value="3">Three</option>
+    </select>
+    </div>
+
+    <div class="m-1">
+    <select class="form-select" aria-label="Brand">
+            <option disabled selected hidden>Brand</option>
+            <option value="1">One</option>
+            <option value="2">Two</option>
+            <option value="3">Three</option>
+        </select>
+    </div>
+
+    <div class="m-1">
+    <select class="form-select" aria-label="Color">
+            <option disabled selected hidden>Color</option>
+            <option value="1">One</option>
+             <option value="2">Two</option>
+            <option value="3">Three</option>
+        </select>
+    </div>
+
+    <div class="m-1">
+    <select class="form-select" aria-label="Price Range">
+        <option disabled selected hidden>Price Range</option>
+        <option value="1">One</option>
+        <option value="2">Two</option>
+        <option value="3">Three</option>
+     </select>
+    </div>
+    <div class="m-1">
+         <a class="btn btn-outline-secondary" href="#" role="button" aria-expanded="false">Show Only In Stock</a>
+    </div>
+    </div>
+</div>
+
 <div class="row">
     @foreach(var hat in Model.Hats)
     {
         @if (hat.Visible.Equals(true))
         {
-            <div class="col-md-4 col-xs-6 border-primary mb-3">
+            <div class="col-md-4 col-xs-6 d-flex align-items-stretch border-primary mb-3">
                 <div class="card mb-3" style="max-width: 540px;">
                     <div class="row g-0">
                         <div class="col-md-12">
                             <div class="card-header text-white" style="background-color:dimgray">
                                 <p class="card-text">
-                                    <h5 class="card-title">
-                                        @hat.Name.Substring(0,Math.Min(hat.Name.Length,15))
+                                    <h5 class="card-title text-truncate">
+                                        @hat.Name
                                         <a class="text-white float-right" asp-action="Edit" asp-route-id="@hat.Id"><i class="bi bi-pencil-square"></i></a>
                                     </h5>
                                 </p>
