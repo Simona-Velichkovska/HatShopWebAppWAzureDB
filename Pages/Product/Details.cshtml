@@ -1,0 +1,67 @@
+﻿@page "{id:Guid}"
+@model HatShopWebAppWAzureDB.Pages.User.DetailsModel
+@{
+}
+<div class="row justify-content-center">
+    <div class="col-md-8 ">
+        <div class="card mb-12 ">
+            <div class="row g-0">
+                <div class="col-md-12 ">
+                    <div class="card-header text-white mb-3" style="background-color:gray">
+                        <p class="card-text">
+                            <h5 class="card-title text-center">
+                                @Model.Hat.Name
+                            </h5>
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <img src="@Model.Hat.FeaturedImageUrl" style="width:100%;" alt="@Model.Hat.Name">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <p class="card-text">@Model.Hat.Description</p>
+                        <p class="card-text">
+                            <b>Brand: </b>
+                            <a>
+                                @Model.Hat.Brand
+                            </a>
+                        </p>
+                        <p class="card-text">
+                            <b>Color: </b>
+                            <a>
+                                @Model.Hat.Color
+                            </a>
+                        </p>
+                        <p class="card-text"><b>Size: </b>@Model.Hat.Size</p>
+                        <p class="card-text ">
+                            <b>Status: </b>
+                            @if (Model.Hat.InStock)
+                            {
+                                <span class="badge bg-success text-white">In Stock</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger text-white">Not In Stock</span>
+                            }
+                        </p>
+
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class=" card-footer d-flex justify-content-evenly">
+                        <p class="card-text">
+                            <a class="btn btn-outline-primary float-right" asp-action="Index">
+                                Back to List
+                            </a>
+                            <a class="btn btn-success text-white justify-content-end  @((Model.Hat.InStock) ? "" : "disabled")"
+                               asp-route-id="@Model.Hat.Id"><i class="bi bi-cart-plus"></i> Add to Cart (Price @Model.Hat.Price.ToString("c"))</a>
+
+                        </p>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
