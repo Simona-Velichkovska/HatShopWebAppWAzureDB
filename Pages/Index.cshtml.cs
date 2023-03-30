@@ -21,13 +21,26 @@ namespace HatShopWebAppWAzureDB.Pages
             _configuration = configuration;
         }
 
-        public async Task OnGet(int pageIndex=1)
+        public async Task OnGetAsync(string searchString,int pageIndex=1)
         {
             var pageSize = _configuration.GetValue("PageSize", 6);
-            var count = await HatRepository.GetCountOfAllVisible();
             var skip = Math.Abs((pageIndex - 1) * pageSize);
-            List<Hat> items = await HatRepository.TakeSomeAsync(skip,pageSize);
-            Hats = await PaginatedList<Hat>.CreateAsync(items,count, pageIndex<0?1:pageIndex, pageSize);
+            if(!String.IsNullOrEmpty(searchString))
+            {
+                
+                List<Hat> hats = await HatRepository.SearchByString(searchString);
+                var cnt = hats.Count();
+                Hats = await PaginatedList<Hat>.CreateAsync(hats, cnt, pageIndex < 0 ? 1 : pageIndex, pageSize);
+
+            }
+            else
+            {
+                var count = await HatRepository.GetCountOfAllVisible();
+            
+                List<Hat> items = await HatRepository.TakeSomeAsync(skip,pageSize);
+                Hats = await PaginatedList<Hat>.CreateAsync(items,count, pageIndex<0?1:pageIndex, pageSize);
+            }
+            
         }
 
 

@@ -5,6 +5,7 @@ using System.Linq;
 
 namespace HatShopWebAppWAzureDB.Repositories
 {
+
     public class HatRepository : IHatRepository
     {
         private readonly HatShopDbContext hatShopDbContext;
@@ -46,6 +47,12 @@ namespace HatShopWebAppWAzureDB.Repositories
         public async Task<Int32> GetCountOfAllVisible()
         {
             return await hatShopDbContext.Hats.Where(h => h.Visible == true).CountAsync();
+        }
+
+
+        public async Task<List<Hat>> SearchByString(string search)
+        {
+            return await hatShopDbContext.Hats.Where(h => h.Name.Contains(search) || h.Brand.Contains(search)).ToListAsync();
         }
 
         public async Task<List<Hat>> TakeSomeAsync(int skip, int size)

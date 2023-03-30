@@ -8,9 +8,9 @@
 <div class="container mb-3 navbar multi-collapse d-sm-inline-flex justify-content-between">
     <div class="d-flex justify-content-start">
         <div class="m-1">
-        <form class="d-flex" role="search">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Search</button>
+            <form class="d-flex" asp-action="Index" method="get" role="search">
+                <input class="form-control me-2" type="search" name="searchString" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success"  type="submit">Search</button>
         </form>
         </div>
     </div>
@@ -82,14 +82,14 @@
                         </div>
                         <div class="col-md-6">
                             <div class="card-body">
-                                <p class="card-text"><b>Color: </b>@hat.Color</p>
+                                <p class="card-text"><b>Color: </b><br/>@hat.Color</p>
                                 <p class="card-text"><b>Brand: </b>@hat.Brand.Substring(0,Math.Min(hat.Brand.Length,6))</p>
                                 <p class="card-text"><b>Size: </b>@hat.Size</p>
                         </div>
                     </div>
                         <div class="col-md-12 ">
                             <div class="card-footer">
-                                <div class="d-grid gap-2 mx-auto ">
+                                <div class="d-grid gap-2 mx-auto">
                                     <a class="btn btn-outline-primary btn-block" 
                                     asp-page="./Product/Details"
                                     asp-page-handler="details"

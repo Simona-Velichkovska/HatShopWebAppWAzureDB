@@ -16,5 +16,8 @@ namespace HatShopWebAppWAzureDB.Repositories
         Task<Hat> UpdateAsync(Hat hat);
         Task<bool> DeleteAsync(Guid id);
 
+
+        Task<List<Hat>> SearchByString(string search);
+
     }
 }
