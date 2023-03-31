@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Drawing;
 
 namespace HatShopWebAppWAzureDB.Classes
 {
@@ -18,8 +19,10 @@ namespace HatShopWebAppWAzureDB.Classes
         public bool HasPreviousPage => PageIndex > 1;
         public bool HasNextPage => PageIndex < TotalPages;
 
-        public static async Task<PaginatedList<T>> CreateAsync(List<T> items, int count, int pageIndex, int pageSize)
+        public static PaginatedList<T> Create(List<T> items, int count, int pageIndex, int pageSize)
         {
+            var skip = (pageIndex - 1) * pageSize;
+            items =  items.Skip(skip).Take(pageSize).ToList();
             return new PaginatedList<T>(items,count, pageIndex, pageSize);
         }
 

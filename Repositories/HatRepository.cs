@@ -35,7 +35,7 @@ namespace HatShopWebAppWAzureDB.Repositories
 
         public async Task<IEnumerable<Hat>> GetAllAsync()
         {
-            return await hatShopDbContext.Hats.ToListAsync();
+            return await hatShopDbContext.Hats.Where(h => h.Visible == true).ToListAsync();
 
         }
 
@@ -52,7 +52,7 @@ namespace HatShopWebAppWAzureDB.Repositories
 
         public async Task<List<Hat>> SearchByString(string search)
         {
-            return await hatShopDbContext.Hats.Where(h => h.Name.Contains(search) || h.Brand.Contains(search)).ToListAsync();
+            return await hatShopDbContext.Hats.Where(h => (h.Name.Contains(search) || h.Brand.Contains(search)) && h.Visible == true).ToListAsync();
         }
 
         public async Task<List<Hat>> TakeSomeAsync(int skip, int size)

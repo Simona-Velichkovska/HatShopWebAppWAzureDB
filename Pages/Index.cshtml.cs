@@ -4,6 +4,7 @@ using HatShopWebAppWAzureDB.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace HatShopWebAppWAzureDB.Pages
 {
@@ -13,7 +14,8 @@ namespace HatShopWebAppWAzureDB.Pages
 
         private readonly IHatRepository HatRepository;
         private readonly IConfiguration _configuration;
-        
+
+
 
         public IndexModel(IHatRepository HatRepository, IConfiguration configuration)
         {
@@ -21,28 +23,36 @@ namespace HatShopWebAppWAzureDB.Pages
             _configuration = configuration;
         }
 
-        public async Task OnGetAsync(string searchString,int pageIndex=1)
+        public static string currentSearch { get; set; }
+        public async Task OnGet(string searchString,string clear, int pageIndex)
         {
             var pageSize = _configuration.GetValue("PageSize", 6);
-            var skip = Math.Abs((pageIndex - 1) * pageSize);
-            if(!String.IsNullOrEmpty(searchString))
+
+            if (searchString != null)
             {
-                
-                List<Hat> hats = await HatRepository.SearchByString(searchString);
+                pageIndex = 1;
+                currentSearch = searchString;
+            }
+            else {
+            }
+            
+
+            if (!String.IsNullOrEmpty(currentSearch) && String.IsNullOrEmpty(clear))
+            {
+                List<Hat> hats = await HatRepository.SearchByString(currentSearch);
                 var cnt = hats.Count();
-                Hats = await PaginatedList<Hat>.CreateAsync(hats, cnt, pageIndex < 0 ? 1 : pageIndex, pageSize);
+                Hats = PaginatedList<Hat>.Create(hats, cnt, pageIndex == 0 ? 1 : pageIndex, pageSize);
 
             }
             else
             {
+                currentSearch = null;
                 var count = await HatRepository.GetCountOfAllVisible();
-            
-                List<Hat> items = await HatRepository.TakeSomeAsync(skip,pageSize);
-                Hats = await PaginatedList<Hat>.CreateAsync(items,count, pageIndex<0?1:pageIndex, pageSize);
+                List<Hat> items = (List<Hat>) await HatRepository.GetAllAsync();
+                Hats = PaginatedList<Hat>.Create(items,count, pageIndex==0?1:pageIndex, pageSize);
             }
             
         }
-
 
     }
 }
