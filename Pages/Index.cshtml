@@ -1,4 +1,4 @@
-﻿@page
+﻿@page 
 @model IndexModel
 @{
     ViewData["Title"] = "Home page";
@@ -24,43 +24,72 @@
     </div>
 
     <div class=" d-flex justify-content-end">
-    <div class="m-1">
-    <select class="form-select" aria-label="Size" >
-        <option disabled selected hidden>Size</option>
-        <option value="1">One</option>
-        <option value="2">Two</option>
-        <option value="3">Three</option>
-    </select>
-    </div>
+        <div class="container">
+            <div class="dropdown">
+                <button type="button"
+                        class="btn btn-lg btn-primary
+                           dropdown-toggle"
+                        data-bs-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                    
+                    Filter
+                    <span class="caret"></span>
+                </button>
+             <div class="dropdown-menu p-1" style="width:200px;">
+             <form method="get">
+                <div class=" form-group m-1">
+                     <select class="form-select" name="sizeFilter" >
+                        <option disabled selected hidden>Size</option>
+                        <option value="S">S</option>
+                        <option value="M">M</option>
+                        <option value="L">L</option>
+                    </select>
+                </div>
 
-    <div class="m-1">
-    <select class="form-select" aria-label="Brand">
-            <option disabled selected hidden>Brand</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
-        </select>
-    </div>
+                <div class=" form-group m-1 ">
+                    <select class="form-select" name="brandFilter" >
+                    <option disabled selected hidden>Brand</option>
+                        <option value="Adidas">Adidas</option>
+                        <option value="Nike">Nike</option>
+                        <option value="Champion">Champion</option>
+                    </select>
+                </div>
 
-    <div class="m-1">
-    <select class="form-select" aria-label="Color">
-            <option disabled selected hidden>Color</option>
-            <option value="1">One</option>
-             <option value="2">Two</option>
-            <option value="3">Three</option>
-        </select>
-    </div>
+                <div class=" form-group m-1 ">
+                    <select class="form-select" name="colorFilter">
+                        <option disabled selected hidden>Color</option>
+                        <option value="Black">Black</option>
+                         <option value="White">White</option>
+                        <option value="Red">Red</option>
+                    </select>
+                </div>
+                <!--
+                <div class=" form-group m-1">
+                    <select class="form-select" aria-label="Price Range">
+                    <option disabled selected hidden>Price Range</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                            </select>
+                </div>
+                        -->
+                <div class=" form-group m-1">
+                    <input type="checkbox"
+                           class="form-check-input m-1"
+                           name="showInStock" id="fm4" value="true">
+                           Show Only In Stock
+                </div>
 
-    <div class="m-1">
-    <select class="form-select" aria-label="Price Range">
-        <option disabled selected hidden>Price Range</option>
-        <option value="1">One</option>
-        <option value="2">Two</option>
-        <option value="3">Three</option>
-     </select>
-    </div>
-    <div class="m-1">
-         <a class="btn btn-outline-secondary text-truncate" href="#" role="button" aria-expanded="false">Show Only In Stock</a>
+                <div class="form-group p-1">
+                    <button
+                            type="submit"
+                            class="btn btn-primary">
+                        Apply Filter
+                    </button>
+                </div>
+                    </form>
+                </div>
+            </div>
     </div>
     </div>
 </div>

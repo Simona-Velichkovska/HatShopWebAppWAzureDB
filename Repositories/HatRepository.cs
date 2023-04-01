@@ -33,6 +33,29 @@ namespace HatShopWebAppWAzureDB.Repositories
             return false;
         }
 
+        public async Task<List<Hat>> FilterHats(string size, string brand, string color, string stock)
+        {
+            List<Hat> hats = (List<Hat>) await this.GetAllAsync();
+            if (!String.IsNullOrEmpty(size))
+            {
+                hats=hats.Where(h => h.Size.ToLower().Equals(size.ToLower())).ToList();
+            }
+            if(!String.IsNullOrEmpty(brand))
+            {
+                hats = hats.Where(h => h.Brand.ToLower().Equals(brand.ToLower())).ToList();
+            }
+            if (!String.IsNullOrEmpty(color))
+            {
+                hats = hats.Where(h => h.Color.ToLower().Equals(color.ToLower())).ToList();
+            }
+            if (!String.IsNullOrEmpty(stock) && stock.Equals("true"))
+            {
+                hats = hats.Where(h => h.InStock.ToString().ToLower().Equals(stock.ToLower())).ToList();
+            }
+
+            return hats;
+        }
+
         public async Task<IEnumerable<Hat>> GetAllAsync()
         {
             return await hatShopDbContext.Hats.Where(h => h.Visible == true).ToListAsync();
