@@ -19,7 +19,7 @@ namespace HatShopWebAppWAzureDB.Repositories
 
         Task<List<Hat>> SearchByString(string search);
 
-        Task<List<Hat>> FilterHats(string size, string brand, string color, string stock);
+        Task<List<Hat>> FilterHats(List<Hat> hats,string size, string brand, string color, string stock);
 
     }
 }

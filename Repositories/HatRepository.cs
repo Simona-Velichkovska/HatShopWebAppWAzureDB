@@ -33,12 +33,11 @@ namespace HatShopWebAppWAzureDB.Repositories
             return false;
         }
 
-        public async Task<List<Hat>> FilterHats( string size, string brand, string color, string stock)
+        public async Task<List<Hat>> FilterHats( List<Hat> hats,string size, string brand, string color, string stock)
         {
-            List<Hat> hats = (List<Hat>) await this.GetAllAsync();
             if (!String.IsNullOrEmpty(size))
             {
-                hats=hats.Where(h => h.Size.ToLower().Equals(size.ToLower())).ToList();
+                hats= hats.Where(h => h.Size.ToLower().Equals(size.ToLower())).ToList();
             }
             if(!String.IsNullOrEmpty(brand))
             {

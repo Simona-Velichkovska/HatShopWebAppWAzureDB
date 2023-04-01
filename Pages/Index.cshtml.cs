@@ -44,8 +44,6 @@ namespace HatShopWebAppWAzureDB.Pages
                 pageIndex = 1;
                 currentSearch = searchString;
             }
-            else {
-            }
 
             if(!String.IsNullOrEmpty(sortBy))
             {
@@ -77,16 +75,14 @@ namespace HatShopWebAppWAzureDB.Pages
             }
             else
             {
-                if (!filterOn) { 
                     currentSearch = null;
                     count = await HatRepository.GetCountOfAllVisible();
-                    hats = (List<Hat>) await HatRepository.GetAllAsync();
-                }else
-                {
-                    hats = (List<Hat>)await HatRepository.FilterHats(SizeFilter, BrandFilter, ColorFilter, ShowInStock);
-                    count = hats.Count();
-                    
-                }
+                    hats = (List<Hat>) await HatRepository.GetAllAsync(); 
+            }
+            if (filterOn)
+            {
+                hats = (List<Hat>)await HatRepository.FilterHats(hats, SizeFilter, BrandFilter, ColorFilter, ShowInStock);
+                count = hats.Count();
             }
 
             if (sortOn && !String.IsNullOrEmpty(SortBy))
