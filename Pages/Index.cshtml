@@ -91,6 +91,34 @@
                 </div>
             </div>
     </div>
+        <div class="container">
+            <div class="dropdown">
+                <button type="button"
+                        class="btn btn-lg btn-primary
+                           dropdown-toggle"
+                        data-bs-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+
+                    Sort By
+                    <span class="caret"></span>
+                </button>
+                <div class="dropdown-menu p-1">
+                    <form method="get">
+                        <div class=" form-group m-1">
+                        <button class="dropdown-item" asp-page="./Index" formmethod="get" name="sortBy" value="price">Price</button>
+                        </div>
+
+                        <div class=" form-group m-1 ">
+                        <button class="dropdown-item" asp-page="./Index" formmethod="get" name="sortBy" value="newest"> Newest</button>
+                        </div>
+
+                        <div class=" form-group m-1 ">
+                        <button class="dropdown-item" asp-page="./Index" formmethod="get" name="sortBy" value="name">Name</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 

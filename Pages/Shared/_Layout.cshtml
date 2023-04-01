@@ -39,19 +39,11 @@
                     <ul class="navbar-nav flex-grow-1 justify-content-end">
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Index"><i class="fw-bolder">Cart</i></a>
-                       
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                User
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item text-black" href="/admin/hats/add">Add Product</a></li>
-                                <li><a class="dropdown-item text-black" href="/admin/hats/list">View All Products</a></li>
 
-                            </ul>
                         </li>
-                        </ul>
+                        <partial name="_LoginPartial" />
+                        
+                    </ul>
                     </div>
                 </div>
             

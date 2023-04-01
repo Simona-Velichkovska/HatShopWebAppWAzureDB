@@ -33,7 +33,7 @@ namespace HatShopWebAppWAzureDB.Repositories
             return false;
         }
 
-        public async Task<List<Hat>> FilterHats(string size, string brand, string color, string stock)
+        public async Task<List<Hat>> FilterHats( string size, string brand, string color, string stock)
         {
             List<Hat> hats = (List<Hat>) await this.GetAllAsync();
             if (!String.IsNullOrEmpty(size))
