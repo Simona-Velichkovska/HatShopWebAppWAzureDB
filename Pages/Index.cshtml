@@ -1,10 +1,188 @@
-﻿@page
+﻿@page 
 @model IndexModel
 @{
     ViewData["Title"] = "Home page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+<div class="container mb-3 navbar multi-collapse d-sm-inline-flex justify-content-between">
+    <div class="d-flex justify-content-start">
+        <div class="m-1">
+            <form class="d-flex" method="get" role="search">
+                <input class="form-control me-2" type="search" name="searchString" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+                
+        </form>
+
+        </div>
+
+        <div class="m-1">
+            <form method="get" role="search">
+            <button class="btn btn-outline-primary" formmethod="get" name="clear" value="clear" type="submit">Clear Search</button>
+            </form>
+        </div>
+    </div>
+
+    <div class=" d-flex justify-content-end">
+        <div class="container">
+            <div class="dropdown">
+                <button type="button"
+                        class="btn btn-lg btn-primary
+                           dropdown-toggle"
+                        data-bs-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                    
+                    Filter
+                    <span class="caret"></span>
+                </button>
+             <div class="dropdown-menu p-1" style="width:200px;">
+             <form method="get">
+                <div class=" form-group m-1">
+                     <select class="form-select" name="sizeFilter" >
+                        <option disabled selected hidden>Size</option>
+                        <option value="S">S</option>
+                        <option value="M">M</option>
+                        <option value="L">L</option>
+                    </select>
+                </div>
+
+                <div class=" form-group m-1 ">
+                    <select class="form-select" name="brandFilter" >
+                    <option disabled selected hidden>Brand</option>
+                        <option value="Adidas">Adidas</option>
+                        <option value="Nike">Nike</option>
+                        <option value="Champion">Champion</option>
+                    </select>
+                </div>
+
+                <div class=" form-group m-1 ">
+                    <select class="form-select" name="colorFilter">
+                        <option disabled selected hidden>Color</option>
+                        <option value="Black">Black</option>
+                         <option value="White">White</option>
+                        <option value="Red">Red</option>
+                    </select>
+                </div>
+                <!--
+                <div class=" form-group m-1">
+                    <select class="form-select" aria-label="Price Range">
+                    <option disabled selected hidden>Price Range</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                            </select>
+                </div>
+                        -->
+                <div class=" form-group m-1">
+                    <input type="checkbox"
+                           class="form-check-input m-1"
+                           name="showInStock" id="fm4" value="true">
+                           Show Only In Stock
+                </div>
+
+                <div class="form-group p-1">
+                    <button
+                            type="submit"
+                            class="btn btn-primary">
+                        Apply Filter
+                    </button>
+                </div>
+                    </form>
+                </div>
+            </div>
+    </div>
+        <div class="container">
+            <div class="dropdown">
+                <button type="button"
+                        class="btn btn-lg btn-primary
+                           dropdown-toggle"
+                        data-bs-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+
+                    Sort By
+                    <span class="caret"></span>
+                </button>
+                <div class="dropdown-menu p-1">
+                    <form method="get">
+                        <div class=" form-group m-1">
+                        <button class="dropdown-item" asp-page="./Index" formmethod="get" name="sortBy" value="price">Price</button>
+                        </div>
+
+                        <div class=" form-group m-1 ">
+                        <button class="dropdown-item" asp-page="./Index" formmethod="get" name="sortBy" value="newest"> Newest</button>
+                        </div>
+
+                        <div class=" form-group m-1 ">
+                        <button class="dropdown-item" asp-page="./Index" formmethod="get" name="sortBy" value="name">Name</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<div class="row">
+    @foreach(var hat in Model.Hats)
+    {
+        @if (hat.Visible.Equals(true))
+        {
+            <div class="col-md-4 col-xs-6 d-flex align-items-stretch border-primary mb-3">
+                <div class="card mb-3" style="max-width: 540px;">
+                    <div class="row g-0">
+                        <div class="col-md-12">
+                            <div class="card-header text-white" style="background-color:dimgray">
+                                <p class="card-text">
+                                    <h5 class="card-title text-truncate">
+                                        @hat.Name
+                                        <a class="text-white float-right" asp-action="Edit" asp-route-id="@hat.Id"><i class="bi bi-pencil-square"></i></a>
+                                    </h5>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-6 d-flex justify-content-center align-items-center">
+                            <div class="flex-shrink-0 ">
+                            <img src="@hat.FeaturedImageUrl" width="100" alt="@hat.Name">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card-body">
+                                <p class="card-text"><b>Color: </b><br/>@hat.Color</p>
+                                <p class="card-text"><b>Brand: </b>@hat.Brand.Substring(0,Math.Min(hat.Brand.Length,6))</p>
+                                <p class="card-text"><b>Size: </b>@hat.Size</p>
+                        </div>
+                    </div>
+                        <div class="col-md-12 ">
+                            <div class="card-footer">
+                                <div class="d-grid gap-2 mx-auto">
+                                    <a class="btn btn-outline-primary btn-block" 
+                                    asp-page="./Product/Details"
+                                    asp-page-handler="details"
+                                    asp-route-id="@hat.Id">
+                                        Show Details
+                                    </a>
+                                    <a class="btn btn-success btn-block text-white @((hat.InStock) ?  "": "disabled")"
+                                    asp-route-id="@hat.Id">
+                                    <i class="bi bi-cart-plus"></i> Add to Cart (Price @hat.Price.ToString("c"))
+                                    </a>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        }
+    }
+</div>
+
+@{
+    var prevDisabled = Model.Hats.HasPreviousPage ? "" : "disabled";
+    var nextDisabled = Model.Hats.HasNextPage ? "" : "disabled";
+}
+
+<a asp-page="./Index"
+   asp-route-pageIndex="@(Model.Hats.PageIndex - 1)"
+   class="btn btn-primary @prevDisabled">Previous</a>
+<a asp-page="./Index"
+   asp-route-pageIndex="@(Model.Hats.PageIndex + 1)"
+   class="btn btn-primary @nextDisabled">Next</a>
