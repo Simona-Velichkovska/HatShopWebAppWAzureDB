@@ -15,6 +15,7 @@ namespace HatShopWebAppWAzureDB.Pages
     {
         public PaginatedList<Hat> Hats { get; set; }
         public ShoppingCart cart { get; set; }
+        public List<CartItems> cartItems { get; set; }
 
         private readonly IHatRepository HatRepository;
         private readonly IConfiguration _configuration;
@@ -112,13 +113,13 @@ namespace HatShopWebAppWAzureDB.Pages
         }    
         public async Task<IActionResult> OnGetAddHat(Guid id)
         {
-            if (HttpContext.User != null)
+            if (HttpContext.User.Identity.Name != null)
             {
                 Identity.User user = await _userManager.GetUserAsync(HttpContext.User);
                 cart = await cartRepository.findShoppingCartByUserId(user.Id);
                 if (!id.Equals(Guid.Empty))
                 {
-                    //await cartRepository.addHatInShoppingCart(cart.Id, id);
+                    cartItems = await cartRepository.addHatInShoppingCart(cart.Id, id);
                 }
             } 
             return RedirectToPage("/Cart/ShoppingCart");

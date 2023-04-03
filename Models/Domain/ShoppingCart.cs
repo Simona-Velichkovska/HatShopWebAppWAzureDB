@@ -9,7 +9,6 @@ namespace HatShopWebAppWAzureDB.Models.Domain
         public Guid Id { get; set; }
         public DateTime DateCreated { get; set; }
         public User User { get; set; }
-        public CartItems CartItems { get; set; }
 
     }
 }

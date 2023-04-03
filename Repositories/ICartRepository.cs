@@ -7,8 +7,8 @@ namespace HatShopWebAppWAzureDB.Repositories
         Task<ShoppingCart> findShoppingCartById(Guid id);
         Task<ShoppingCart> findShoppingCartByUserId(string userId);
         Task<ShoppingCart> createShoppingCartForUser(string userId);
-        //Task<ShoppingCart> addHatInShoppingCart(Guid cartId, Guid hatId);
-        Task<CartItems> findCartItemsById(Guid id);
+        Task<List<CartItems>> addHatInShoppingCart(Guid cartId, Guid hatId);
+        Task<List<CartItems>> findCartItemsByCartId(Guid cartId);
 
     }
 }

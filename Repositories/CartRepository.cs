@@ -17,17 +17,28 @@ namespace HatShopWebAppWAzureDB.Repositories
         }
 
         //Service function
-/*        public async Task<ShoppingCart> addHatInShoppingCart(Guid cartId, Guid hatId)
+        public async Task<List<CartItems>> addHatInShoppingCart(Guid cartId, Guid hatId)
         {
             Hat hat = await hatShopDbContext.Hats.FindAsync(hatId);
-            ShoppingCart cart = await hatShopDbContext.shoppingCarts.FindAsync(cartId);
+            List<CartItems> cartItems = await this.findCartItemsByCartId(cartId);
+            var itemCount = cartItems.Where(c => c.Hat.Equals(hat)).Count();
+            CartItems cartItem = new CartItems();
+            cartItem.Hat = hat;
+            cartItem.CartId = cartId;
 
-
+            if (itemCount == 0)
+            {
+                cartItem.Quantity = 1;
+                await hatShopDbContext.CartItems.AddAsync(cartItem);
+            }
+            else
+            {
+                cartItems.Where(c => c.Hat.Equals(hat)).First().Quantity += 1;
+            }
+            
             await hatShopDbContext.SaveChangesAsync();
-            return cart;
-
-            throw new NotImplementedException();
-        }*/
+            return cartItems;
+        }
         //Service function
         public async Task<ShoppingCart> createShoppingCartForUser(string userId)
         {
@@ -40,9 +51,9 @@ namespace HatShopWebAppWAzureDB.Repositories
             return cart;
         }
 
-        public async Task<CartItems> findCartItemsById(Guid id)
+        public async Task<List<CartItems>> findCartItemsByCartId(Guid cartId)
         {
-            return await hatShopDbContext.CartItems.FindAsync(id);
+            return await hatShopDbContext.CartItems.Where(c=>c.CartId==cartId).Include(h=>h.Hat).ToListAsync();
         }
 
         public async Task<ShoppingCart> findShoppingCartById(Guid id)
@@ -54,6 +65,7 @@ namespace HatShopWebAppWAzureDB.Repositories
         {
             if (!hatShopDbContext.shoppingCarts.IsNullOrEmpty())
             {
+                
                 return await hatShopDbContext.shoppingCarts.Where(s => s.User.Id.Equals(userId)).FirstAsync<ShoppingCart>();
             }
             else

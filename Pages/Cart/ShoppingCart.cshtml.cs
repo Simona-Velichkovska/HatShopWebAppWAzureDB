@@ -12,6 +12,7 @@ namespace HatShopWebAppWAzureDB.Pages.Cart
         private readonly ICartRepository cartRepository;
         private readonly UserManager<Identity.User> _userManager;
 
+        public List<CartItems> cartItems { get; set; }
         public ShoppingCart cart { get; set; }
 
         public ShoppingCartModel(ICartRepository cartRepository, UserManager<Identity.User> userManager)
@@ -22,10 +23,11 @@ namespace HatShopWebAppWAzureDB.Pages.Cart
 
         public async Task OnGet()
         {
-            if (HttpContext.User != null)
+            if (HttpContext.User.Identity.Name != null)
             {
                 Identity.User user = await _userManager.GetUserAsync(HttpContext.User);
                 cart = await cartRepository.findShoppingCartByUserId(user.Id);
+                cartItems = await cartRepository.findCartItemsByCartId(cart.Id);
             }
         }
     }

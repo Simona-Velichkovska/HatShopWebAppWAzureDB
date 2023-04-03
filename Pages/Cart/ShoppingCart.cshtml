@@ -7,10 +7,10 @@
         <h1>Your Shopping Cart</h1>
     </div>
 </section>
-@*@if(Model.cart!=null){
+@if(Model.cart!=null){
 <div class="container">
 
-    @if (Model.cart.CartItems != null)
+    @if (Model.cartItems != null)
     {
         <form method="post">
                 <table class="table">
@@ -20,27 +20,28 @@
                         <th></th>
                         <th>Price</th>
                         <th>Total</th>
+                        
                     </tr>
-                    @foreach (var item in Model.cart.HatList)
+                    @foreach (var item in Model.cartItems)
                     {
                         <tr>
                             <td>
-                                <img src="@item.FeaturedImageUrl" style="width:10%;">
-                                @item.Name
+                                <img src="@item.Hat.FeaturedImageUrl" style="width:10%;">
+                                @item.Hat.Name
                                
                             </td>
                             <td>@item.Quantity</td>
                             <td>
-                                <a class="btn btn-primary btn-sm" asp-action="Add" asp-route-id="@item.Id">+</a>
-                                <a class="btn btn-info btn-sm" asp-action="Decrease" asp-route-id="@item.Id">-</a>
-                                <a class="btn btn-danger btn-sm" asp-action="Remove" asp-route-id="@item.Id">Remove</a>
+                                <a class="btn btn-primary btn-sm" asp-action="Add" asp-route-id="@item.Hat.Id">+</a>
+                                <a class="btn btn-info btn-sm" asp-action="Decrease" asp-route-id="@item.Hat.Id">-</a>
+                                <a class="btn btn-danger btn-sm" asp-action="Remove" asp-route-id="@item.Hat.Id">Remove</a>
                             </td>
-                            <td>@item.Price.ToString("C2")</td>
-                            <td>@Model.cart.Total()</td>
+                            <td>@item.Hat.Price.ToString("C2")</td>
+                            <td>@Math.Round(item.Quantity * item.Hat.Price, 2).ToString("N2")</td>
                         </tr>
                     }
                     <tr>
-                        <td class="text-right" colspan="4">Grand Total: @Model.cart.Total()</td>
+                        
                     </tr>
                     <tr>
                         <td class="text-right" colspan="4">
@@ -62,4 +63,4 @@
         </section>
     }
 </div>
-}*@
+}

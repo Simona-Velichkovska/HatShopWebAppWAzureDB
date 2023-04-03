@@ -4,6 +4,7 @@ using HatShopWebAppWAzureDB.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HatShopWebAppWAzureDB.Migrations
 {
     [DbContext(typeof(HatShopDbContext))]
-    partial class HatShopDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230403111710_CartChange")]
+    partial class CartChange
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -113,11 +116,14 @@ namespace HatShopWebAppWAzureDB.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
+                    b.Property<int>("TotalItems")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("HatId");
 
-                    b.ToTable("CartItems", (string)null);
+                    b.ToTable("CartItems");
                 });
 
             modelBuilder.Entity("HatShopWebAppWAzureDB.Models.Domain.Hat", b =>
@@ -171,7 +177,7 @@ namespace HatShopWebAppWAzureDB.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Hats", (string)null);
+                    b.ToTable("Hats");
                 });
 
             modelBuilder.Entity("HatShopWebAppWAzureDB.Models.Domain.ShoppingCart", b =>
@@ -190,7 +196,7 @@ namespace HatShopWebAppWAzureDB.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("shoppingCarts", (string)null);
+                    b.ToTable("shoppingCarts");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
