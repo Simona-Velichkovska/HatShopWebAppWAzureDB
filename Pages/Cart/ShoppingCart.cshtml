@@ -1,0 +1,65 @@
+﻿@page 
+@model HatShopWebAppWAzureDB.Pages.Cart.ShoppingCartModel
+@{
+}
+<section class="esh-catalog-hero">
+    <div class="container">
+        <h1>Your Shopping Cart</h1>
+    </div>
+</section>
+@*@if(Model.cart!=null){
+<div class="container">
+
+    @if (Model.cart.CartItems != null)
+    {
+        <form method="post">
+                <table class="table">
+                    <tr>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th></th>
+                        <th>Price</th>
+                        <th>Total</th>
+                    </tr>
+                    @foreach (var item in Model.cart.HatList)
+                    {
+                        <tr>
+                            <td>
+                                <img src="@item.FeaturedImageUrl" style="width:10%;">
+                                @item.Name
+                               
+                            </td>
+                            <td>@item.Quantity</td>
+                            <td>
+                                <a class="btn btn-primary btn-sm" asp-action="Add" asp-route-id="@item.Id">+</a>
+                                <a class="btn btn-info btn-sm" asp-action="Decrease" asp-route-id="@item.Id">-</a>
+                                <a class="btn btn-danger btn-sm" asp-action="Remove" asp-route-id="@item.Id">Remove</a>
+                            </td>
+                            <td>@item.Price.ToString("C2")</td>
+                            <td>@Model.cart.Total()</td>
+                        </tr>
+                    }
+                    <tr>
+                        <td class="text-right" colspan="4">Grand Total: @Model.cart.Total()</td>
+                    </tr>
+                    <tr>
+                        <td class="text-right" colspan="4">
+                            <a class="btn btn-danger" asp-action="Clear">Clear Cart</a>
+                            <a class="btn btn-primary" href="#">Checkout</a>
+                        </td>
+                    </tr>
+                </table>
+        </form>
+    }
+    else
+    {
+        <h3 class="esh-catalog-items row">
+            Basket is empty.
+        </h3>
+
+        <section class="esh-basket-item">
+            <a asp-page="/Index" class="btn esh-basket-checkout text-white">[ Continue Shopping ]</a>
+        </section>
+    }
+</div>
+}*@

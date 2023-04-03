@@ -15,6 +15,8 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using HatShopWebAppWAzureDB.Repositories;
+using HatShopWebAppWAzureDB.Models.Domain;
 
 namespace HatShopWebAppWAzureDB.Areas.Identity.Pages.Account
 {
@@ -22,11 +24,13 @@ namespace HatShopWebAppWAzureDB.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<User> _signInManager;
         private readonly ILogger<LoginModel> _logger;
+        private readonly ICartRepository cartRepository;
 
-        public LoginModel(SignInManager<User> signInManager, ILogger<LoginModel> logger)
+        public LoginModel(SignInManager<User> signInManager, ILogger<LoginModel> logger, ICartRepository cartRepository)
         {
             _signInManager = signInManager;
             _logger = logger;
+            this.cartRepository = cartRepository;
         }
 
         /// <summary>
@@ -116,6 +120,13 @@ namespace HatShopWebAppWAzureDB.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
+                    var user = await _signInManager.UserManager.FindByEmailAsync(Input.Email);
+                    ShoppingCart cart = await cartRepository.findShoppingCartByUserId(user.Id);
+                    if (cart==null)
+                    {
+                        await cartRepository.createShoppingCartForUser(user.Id);
+                    }
+
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)

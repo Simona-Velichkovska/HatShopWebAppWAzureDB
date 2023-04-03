@@ -16,6 +16,7 @@ builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfi
     .AddEntityFrameworkStores<HatShopDbContext>();
 builder.Services.AddTransient(typeof(IHatRepository), typeof(HatRepository));
 builder.Services.AddTransient<IHatRepository, HatRepository>();
+builder.Services.AddTransient<ICartRepository, CartRepository>();
 builder.Services.AddIdentityCore<User>(options =>
 {
     options.SignIn.RequireConfirmedAccount = false;

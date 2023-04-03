@@ -13,6 +13,9 @@ namespace HatShopWebAppWAzureDB.Data
 
         public DbSet<Hat> Hats { get; set; }
 
+        public DbSet<ShoppingCart> shoppingCarts { get; set; }
+
+        public DbSet<CartItems> CartItems { get; set; }
 
 
     }

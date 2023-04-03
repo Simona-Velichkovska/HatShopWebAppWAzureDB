@@ -1,6 +1,8 @@
 ﻿using HatShopWebAppWAzureDB.Classes;
+using HatShopWebAppWAzureDB.Identity;
 using HatShopWebAppWAzureDB.Models.Domain;
 using HatShopWebAppWAzureDB.Repositories;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -12,16 +14,21 @@ namespace HatShopWebAppWAzureDB.Pages
     public class IndexModel : PageModel
     {
         public PaginatedList<Hat> Hats { get; set; }
+        public ShoppingCart cart { get; set; }
 
         private readonly IHatRepository HatRepository;
         private readonly IConfiguration _configuration;
+        private readonly ICartRepository cartRepository;
+        private readonly UserManager<Identity.User> _userManager;
 
 
-
-        public IndexModel(IHatRepository HatRepository, IConfiguration configuration)
+        public IndexModel(IHatRepository HatRepository, IConfiguration configuration, UserManager<Identity.User> userManager, ICartRepository cartRepository)
         {
             this.HatRepository = HatRepository;
             _configuration = configuration;
+            _userManager = userManager;
+            this.cartRepository = cartRepository;
+            this.cartRepository = cartRepository;
         }
 
         public static string SizeFilter { get; set; }
@@ -102,17 +109,21 @@ namespace HatShopWebAppWAzureDB.Pages
             }
 
             Hats = PaginatedList<Hat>.Create(hats, count, pageIndex == 0 ? 1 : pageIndex, pageSize);
-        }
-/*
-        public async Task OnPostFilter(int pageIndex)
+        }    
+        public async Task<IActionResult> OnGetAddHat(Guid id)
         {
-            filterOn = true;
-            var pageSize = _configuration.GetValue("PageSize", 6);
-
-            List<Hat> items = (List<Hat>) await HatRepository.FilterHats(sizeFilter, brandFilter, colorFilter, showInStock);
-            var count = items.Count();
-            Hats = PaginatedList<Hat>.Create(items, count, pageIndex == 0 ? 1 : pageIndex, pageSize);
+            if (HttpContext.User != null)
+            {
+                Identity.User user = await _userManager.GetUserAsync(HttpContext.User);
+                cart = await cartRepository.findShoppingCartByUserId(user.Id);
+                if (!id.Equals(Guid.Empty))
+                {
+                    //await cartRepository.addHatInShoppingCart(cart.Id, id);
+                }
+            } 
+            return RedirectToPage("/Cart/ShoppingCart");
         }
-*/
     }
+
+
 }
