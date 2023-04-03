@@ -10,7 +10,7 @@
         public string Size { get; set; }
         public string Brand { get; set; }
         public int Quantity { get; set; }
-        public int Price { get; set; }
+        public double Price { get; set; }
         public string FeaturedImageUrl { get; set; }
         public string UrlHandle { get; set; }
         public DateTime PublishedDate { get; set; }

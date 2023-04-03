@@ -63,16 +63,6 @@
                         <option value="Red">Red</option>
                     </select>
                 </div>
-                <!--
-                <div class=" form-group m-1">
-                    <select class="form-select" aria-label="Price Range">
-                    <option disabled selected hidden>Price Range</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                            </select>
-                </div>
-                        -->
                 <div class=" form-group m-1">
                     <input type="checkbox"
                            class="form-check-input m-1"
@@ -162,9 +152,11 @@
                                         Show Details
                                     </a>
                                     <a class="btn btn-success btn-block text-white @((hat.InStock) ?  "": "disabled")"
+                                    asp-page="./Index"
+                                    asp-page-handler="AddHat"
                                     asp-route-id="@hat.Id">
                                     <i class="bi bi-cart-plus"></i> Add to Cart (Price @hat.Price.ToString("c"))
-                                    </a>
+                                        </a>
                                 </div>
                         </div>
                     </div>

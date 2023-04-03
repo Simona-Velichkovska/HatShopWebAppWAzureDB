@@ -4,6 +4,7 @@ using HatShopWebAppWAzureDB.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HatShopWebAppWAzureDB.Migrations
 {
     [DbContext(typeof(HatShopDbContext))]
-    partial class HatShopDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230402234842_CartItems")]
+    partial class CartItems
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -104,20 +107,20 @@ namespace HatShopWebAppWAzureDB.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("CartId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid>("HatId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
+                    b.Property<int>("TotalItems")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("HatId");
 
-                    b.ToTable("CartItems", (string)null);
+                    b.ToTable("CartItems");
                 });
 
             modelBuilder.Entity("HatShopWebAppWAzureDB.Models.Domain.Hat", b =>
@@ -171,13 +174,16 @@ namespace HatShopWebAppWAzureDB.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Hats", (string)null);
+                    b.ToTable("Hats");
                 });
 
             modelBuilder.Entity("HatShopWebAppWAzureDB.Models.Domain.ShoppingCart", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CartItemsId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("DateCreated")
@@ -188,9 +194,11 @@ namespace HatShopWebAppWAzureDB.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CartItemsId");
+
                     b.HasIndex("UserId");
 
-                    b.ToTable("shoppingCarts", (string)null);
+                    b.ToTable("shoppingCarts");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -343,9 +351,17 @@ namespace HatShopWebAppWAzureDB.Migrations
 
             modelBuilder.Entity("HatShopWebAppWAzureDB.Models.Domain.ShoppingCart", b =>
                 {
+                    b.HasOne("HatShopWebAppWAzureDB.Models.Domain.CartItems", "CartItems")
+                        .WithMany()
+                        .HasForeignKey("CartItemsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("HatShopWebAppWAzureDB.Identity.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
+
+                    b.Navigation("CartItems");
 
                     b.Navigation("User");
                 });

@@ -1,11 +1,14 @@
-﻿namespace HatShopWebAppWAzureDB.Models.Domain
+﻿using HatShopWebAppWAzureDB.Identity;
+using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
+
+namespace HatShopWebAppWAzureDB.Models.Domain
 {
-    public class ShoppingCart
+    public class ShoppingCart 
     {
-        private Guid id { get; set; }
-        private DateTime dateCreated { get; set; }
-        //private User user;
-        private List<Hat> hatList { get; set; }
-       
+        public Guid Id { get; set; }
+        public DateTime DateCreated { get; set; }
+        public User User { get; set; }
+
     }
 }
