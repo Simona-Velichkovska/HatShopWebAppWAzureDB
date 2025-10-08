@@ -1,5 +1,5 @@
 # Hat Shop
-## Visit on: [Deployed Page](https://hatshopwebappwazuredb20230403030551.azurewebsites.net)
+## Visit on: (NO LONGER LIVE)[Deployed Page](https://hatshopwebappwazuredb20230403030551.azurewebsites.net) 
 
 ## Using ASP.NET CORE 6 and Razor Pages with Azure Cloud  Database. Deployed on Azure Services
 
